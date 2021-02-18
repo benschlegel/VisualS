@@ -27,6 +27,7 @@ namespace VisualS
 
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
+            Windows.ApplicationModel.Core.CoreApplication.EnablePrelaunch(true);
             if (!args.PrelaunchActivated)
             {
                 await ActivationService.ActivateAsync(args);
