@@ -102,7 +102,8 @@ namespace VisualS.ViewModels
             {
 
                 MaxBars = await Windows.Storage.ApplicationData.Current.LocalSettings.ReadAsync<int>(nameof(MaxBars));
-                if(MaxBars < 1)
+                MaxValue = await Windows.Storage.ApplicationData.Current.LocalSettings.ReadAsync<int>(nameof(MaxValue));
+                if (MaxBars < 1)
                 {
                     MaxBars = _maxBars;
                 }
