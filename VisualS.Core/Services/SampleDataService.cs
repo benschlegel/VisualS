@@ -12,6 +12,17 @@ namespace VisualS.Core.Services
     // TODO WTS: Delete this file once your app is using real data.
     public static class SampleDataService
     {
+        private static int barAmount = 20;
+        public static IEnumerable<BarItem> AllBars()
+        {
+            var bars = new List<BarItem>();
+            for(int i = 0; i < barAmount; i++)
+            {
+                bars.Add(new BarItem() { Value = StaticRandom.Instance.Next(1, 200) });
+            }
+            return bars;
+        }
+
         private static IEnumerable<SampleOrder> AllOrders()
         {
             // The following is order summary data

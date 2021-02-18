@@ -7,6 +7,7 @@
     Style="{StaticResource PageStyle}"
     xmlns:tc="using:Telerik.UI.Xaml.Controls.Chart"
     xmlns:media="using:Microsoft.UI.Xaml.Media"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
@@ -20,8 +21,7 @@
         </ResourceDictionary>
     </Page.Resources>
     <Grid x:Name="ContentArea" Margin="{StaticResource MediumLeftRightMargin}">
-        <Grid
-            Background="{ThemeResource CustomAcrylicBackgroundBrush}">
+        <Grid Background="{ThemeResource CustomAcrylicBackgroundBrush}">
             <tc:RadCartesianChart x:Uid="CartesianChart">
                 <tc:RadCartesianChart.HorizontalAxis>
                     <tc:CategoricalAxis />
@@ -29,9 +29,9 @@
                 <tc:RadCartesianChart.VerticalAxis>
                     <tc:LinearAxis />
                 </tc:RadCartesianChart.VerticalAxis>
-                <tc:BarSeries ItemsSource="{x:Bind ViewModel.Source, Mode=OneWay}" ShowLabels="True">
+                <tc:BarSeries ItemsSource="{x:Bind ViewModel.Source, Mode=OneWay}" ShowLabels="False">
                     <tc:BarSeries.CategoryBinding>
-                        <tc:PropertyNameDataPointBinding PropertyName="Category" />
+                        <tc:PropertyNameDataPointBinding PropertyName="Value" />
                     </tc:BarSeries.CategoryBinding>
                     <tc:BarSeries.ValueBinding>
                         <tc:PropertyNameDataPointBinding PropertyName="Value" />

@@ -10,22 +10,29 @@ namespace VisualS.ViewModels
 {
     public class SortingDisplayViewModel : Observable
     {
-        public ObservableCollection<DataPoint> Source { get; } = new ObservableCollection<DataPoint>();
+        public ObservableCollection<BarItem> Source { get; } = new ObservableCollection<BarItem>();
 
         public SortingDisplayViewModel()
         {
         }
 
-        public async Task LoadDataAsync()
+        public Task LoadDataAsync()
         {
             Source.Clear();
 
             // TODO WTS: Replace this with your actual data
-            var data = await SampleDataService.GetChartDataAsync();
-            foreach (var item in data)
+            //var data = await SampleDataService.GetChartDataAsync();
+            //foreach (var item in data)
+            //{
+            //    Source.Add(item);
+            //}
+            var data = SampleDataService.AllBars();
+            foreach(var item in data)
             {
                 Source.Add(item);
             }
+
+            return Task.CompletedTask;
         }
     }
 }
