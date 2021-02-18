@@ -13,6 +13,42 @@ namespace VisualS.ViewModels
     // TODO WTS: Add other settings as necessary. For help see https://github.com/Microsoft/WindowsTemplateStudio/blob/release/docs/UWP/pages/settings.md
     public class SettingsViewModel : Observable
     {
+        private int _maxValue = 200;
+
+        public int MaxValue
+        {
+            get { return _maxValue; }
+            set {
+                if(value > 0)
+                {
+                    if (value != _maxValue)
+                    {
+                        Task.Run(async () => await Windows.Storage.ApplicationData.Current.LocalSettings.SaveAsync(nameof(MaxValue), value));
+                    }
+
+                    Set(ref _maxValue, value);
+                }
+            }
+        }
+
+        private int _maxBars = 20;
+
+        public int MaxBars
+        {
+            get { return _maxBars; }
+            set {
+                if (value > 0)
+                {
+                    if (value != _maxBars)
+                    {
+                        Task.Run(async () => await Windows.Storage.ApplicationData.Current.LocalSettings.SaveAsync(nameof(MaxBars), value));
+                    }
+
+                    Set(ref _maxBars, value);
+                }
+            }
+        }
+
         private ElementTheme _elementTheme = ThemeSelectorService.Theme;
 
         public ElementTheme ElementTheme
@@ -42,8 +78,11 @@ namespace VisualS.ViewModels
                     _switchThemeCommand = new RelayCommand<ElementTheme>(
                         async (param) =>
                         {
-                            ElementTheme = param;
-                            await ThemeSelectorService.SetThemeAsync(param);
+                            if(_hasInstanceBeenInitialized)
+                            {
+                                ElementTheme = param;
+                                await ThemeSelectorService.SetThemeAsync(param);
+                            }
                         });
                 }
 
@@ -53,6 +92,30 @@ namespace VisualS.ViewModels
 
         public SettingsViewModel()
         {
+        }
+
+        private bool _hasInstanceBeenInitialized = false;
+
+        public async Task EnsureInstanceInitializedAsync()
+        {
+            if (!_hasInstanceBeenInitialized)
+            {
+
+                MaxBars = await Windows.Storage.ApplicationData.Current.LocalSettings.ReadAsync<int>(nameof(MaxBars));
+                if(MaxBars < 1)
+                {
+                    MaxBars = _maxBars;
+                }
+                if(MaxValue < 1)
+                {
+                    MaxValue = _maxValue;
+                }
+                //TODO: Check for nullable
+
+                await InitializeAsync();
+
+                _hasInstanceBeenInitialized = true;
+            }
         }
 
         public async Task InitializeAsync()

@@ -1,5 +1,5 @@
 ﻿using System;
-
+using VisualS.Core.Helpers;
 using VisualS.ViewModels;
 
 using Windows.UI.Xaml.Controls;
@@ -10,7 +10,7 @@ namespace VisualS.Views
     // TODO WTS: Change the URL for your privacy policy in the Resource File, currently set to https://YourPrivacyUrlGoesHere
     public sealed partial class SettingsPage : Page
     {
-        public SettingsViewModel ViewModel { get; } = new SettingsViewModel();
+        public SettingsViewModel ViewModel { get; } = Singleton<SettingsViewModel>.Instance;
 
         public SettingsPage()
         {
@@ -19,7 +19,7 @@ namespace VisualS.Views
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            await ViewModel.InitializeAsync();
+            await ViewModel.EnsureInstanceInitializedAsync();
         }
     }
 }

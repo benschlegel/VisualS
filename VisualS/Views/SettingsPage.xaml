@@ -5,10 +5,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helper="using:VisualS.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Style="{StaticResource PageStyle}"
     xmlns:xaml="using:Windows.UI.Xaml"
     mc:Ignorable="d">
     <Page.Resources>
+        <helper:NullableToNonNullableConverter x:Key="NullableToNonNullableConverter"/>
         <helper:EnumToBooleanConverter x:Key="EnumToBooleanConverter" EnumType="ElementTheme" />
     </Page.Resources>
 
@@ -52,7 +54,28 @@
                     </RadioButton>
                 </StackPanel>
             </StackPanel>
-
+            
+            <TextBlock x:Uid="Settings_AmountBars" />
+            <muxc:NumberBox x:Name="Input_AmountBars"
+                            x:Uid="Settings_AmountBars"
+                            Width="100"
+                            HorizontalAlignment="Left"
+                            Value="{x:Bind ViewModel.MaxBars, Mode=TwoWay}"
+                            SpinButtonPlacementMode="Compact"
+                            Minimum="1"
+                            Maximum="1000"
+                            SmallChange="1"
+                            LargeChange="10" />
+            <TextBlock x:Uid="Settings_BarsMaxValue" Margin="0,10,0,0"/>
+            <muxc:NumberBox x:Name="Input_BarsMaxValue"
+                            x:Uid="Settings_BarsMaxValue"
+                            Width="100"
+                            HorizontalAlignment="Left"
+                            Value="{x:Bind ViewModel.MaxValue, Mode=TwoWay}"
+                            SpinButtonPlacementMode="Compact"
+                            Minimum="1"
+                            SmallChange="10"
+                            LargeChange="50" />
             <TextBlock x:Uid="Settings_About" Style="{ThemeResource SubtitleTextBlockStyle}" />
 
             <StackPanel Margin="{StaticResource XSmallTopMargin}">
