@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using VisualS.Core.Models;
@@ -492,8 +493,8 @@ namespace VisualS.Core.Services
         public static async Task<IEnumerable<DataPoint>> GetChartDataAsync()
         {
             await Task.CompletedTask;
-            return AllOrders().Select(o => new DataPoint() { Category = o.Company, Value = o.OrderTotal })
-                                  .OrderBy(dp => dp.Category);
+            return AllOrders().Select(o => new DataPoint() { Category = o.Company, Value = StaticRandom.Instance.Next(1, 50) })
+                                  .OrderBy(dp => dp.Value);
         }
     }
 }
