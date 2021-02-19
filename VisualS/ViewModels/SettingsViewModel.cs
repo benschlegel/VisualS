@@ -1,7 +1,8 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
-
+using VisualS.Core.Models;
 using VisualS.Helpers;
 using VisualS.Services;
 
@@ -13,12 +14,15 @@ namespace VisualS.ViewModels
     // TODO WTS: Add other settings as necessary. For help see https://github.com/Microsoft/WindowsTemplateStudio/blob/release/docs/UWP/pages/settings.md
     public class SettingsViewModel : Observable
     {
+
+
         private int _maxValue = 200;
 
         public int MaxValue
         {
             get { return _maxValue; }
-            set {
+            set
+            {
                 if(value > 0)
                 {
                     if (value != _maxValue)
@@ -92,6 +96,7 @@ namespace VisualS.ViewModels
 
         public SettingsViewModel()
         {
+
         }
 
         private bool _hasInstanceBeenInitialized = false;

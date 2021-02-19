@@ -26,7 +26,8 @@ namespace VisualS.ViewModels
             //{
             //    Source.Add(item);
             //}
-            var data = SampleDataService.AllBars();
+            
+            var data = SampleDataService.GenerateRandomBars(20, 200);
             foreach(var item in data)
             {
                 Source.Add(item);

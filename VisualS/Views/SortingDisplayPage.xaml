@@ -22,7 +22,7 @@
     </Page.Resources>
     <Grid x:Name="ContentArea" Margin="{StaticResource MediumLeftRightMargin}">
         <Grid Background="{ThemeResource CustomAcrylicBackgroundBrush}">
-            <tc:RadCartesianChart x:Uid="CartesianChart">
+            <tc:RadCartesianChart x:Uid="CartesianChart" >
                 <tc:RadCartesianChart.HorizontalAxis>
                     <tc:CategoricalAxis />
                 </tc:RadCartesianChart.HorizontalAxis>
