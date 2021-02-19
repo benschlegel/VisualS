@@ -13,15 +13,17 @@ namespace VisualS.Helpers
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        //TODO: change to private
         public readonly static int DefaultMaxValue = 250;
         public readonly static int DefaultMaxBars = 12;
 
+        //TODO: Proper initializiation
         private int _maxValue;
 
         public int MaxValue
         {
-            get
-            {
+            get {
+                if(_maxValue == 0) { return DefaultMaxValue; }
                 return _maxValue;
             }
             set
@@ -30,12 +32,12 @@ namespace VisualS.Helpers
                 {
                     if (value != _maxValue)
                     {
-                        Task.Run(async () => await Windows.Storage.ApplicationData.Current.LocalSettings.SaveAsync(nameof(BarDataStore.Instance.MaxValue), value));
-                        var SettingValue = Task.Run(async () => await Windows.Storage.ApplicationData.Current.LocalSettings.ReadAsync<int>(nameof(BarDataStore.Instance.MaxValue)));
+                        Windows.Storage.ApplicationData.Current.LocalSettings.SaveAsync(nameof(BarDataStore.Instance.MaxValue), value);
                     }
                     _maxValue = value;
                     OnPropertyChanged();
-                }else
+                }
+                else
                 {
                     _maxValue = DefaultMaxValue;
                 }
@@ -46,7 +48,11 @@ namespace VisualS.Helpers
 
         public int MaxBars
         {
-            get { return _maxBars; }
+            get
+            {
+                if (_maxValue == 0) { return DefaultMaxBars; }
+                return _maxBars;
+            }
             set
             {
                 if(value > 0)
@@ -71,10 +77,9 @@ namespace VisualS.Helpers
 
         private BarDataStore()
         {
-            //This overwrites values before getting read from settings
-            //TODO: Remove ugly workaround for default values in SettingsViewModel
-            //MaxValue = 200;
-            //MaxBars = 20;
+            //Potentially revert to this
+            //MaxValue = Windows.Storage.ApplicationData.Current.LocalSettings.ReadAsync<int?>(nameof(MaxValue)).Result ?? DefaultMaxBars;
+            //MaxBars = Windows.Storage.ApplicationData.Current.LocalSettings.ReadAsync<int?>(nameof(MaxBars)).Result ?? DefaultMaxBars;
         }
 
         private BarDataStore(int MaxValue, int MaxBars)
