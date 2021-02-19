@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using VisualS.Core.Models;
@@ -62,10 +63,13 @@ namespace VisualS.ViewModels
 
         private void Instance_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            var BarData = (BarDataStore) sender;
             switch (e.PropertyName)
             {
                 case nameof(BarDataStore.MaxValue):
-                    //BarDataStore.Instance.MaxValue;
+
+                    //Task.Run(async () => await Windows.Storage.ApplicationData.Current.LocalSettings.SaveAsync(nameof(BarDataStore.Instance.MaxValue), BarData.MaxValue));
+                    //BarDataStore.Instance.MaxValue = BarData.MaxValue;
                     break;
                 case nameof(BarDataStore.MaxBars):
                     //BarDataStore.Instance.MaxValue;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -11,6 +12,9 @@ namespace VisualS.Helpers
     public class BarDataStore : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public readonly static int DefaultMaxValue = 250;
+        public readonly static int DefaultMaxBars = 12;
 
         private int _maxValue;
 
@@ -26,10 +30,14 @@ namespace VisualS.Helpers
                 {
                     if (value != _maxValue)
                     {
-                        Windows.Storage.ApplicationData.Current.LocalSettings.SaveAsync(nameof(MaxValue), value);
+                        Task.Run(async () => await Windows.Storage.ApplicationData.Current.LocalSettings.SaveAsync(nameof(BarDataStore.Instance.MaxValue), value));
+                        var SettingValue = Task.Run(async () => await Windows.Storage.ApplicationData.Current.LocalSettings.ReadAsync<int>(nameof(BarDataStore.Instance.MaxValue)));
                     }
                     _maxValue = value;
                     OnPropertyChanged();
+                }else
+                {
+                    _maxValue = DefaultMaxValue;
                 }
             }
         }
@@ -49,6 +57,9 @@ namespace VisualS.Helpers
                     }
                     _maxBars = value;
                     OnPropertyChanged();
+                }else
+                {
+                    _maxBars = DefaultMaxBars;
                 }
             }
         }
@@ -60,8 +71,10 @@ namespace VisualS.Helpers
 
         private BarDataStore()
         {
-            MaxValue = 200;
-            MaxBars = 20;
+            //This overwrites values before getting read from settings
+            //TODO: Remove ugly workaround for default values in SettingsViewModel
+            //MaxValue = 200;
+            //MaxBars = 20;
         }
 
         private BarDataStore(int MaxValue, int MaxBars)
