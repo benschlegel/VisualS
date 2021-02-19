@@ -14,45 +14,6 @@ namespace VisualS.ViewModels
     // TODO WTS: Add other settings as necessary. For help see https://github.com/Microsoft/WindowsTemplateStudio/blob/release/docs/UWP/pages/settings.md
     public class SettingsViewModel : Observable
     {
-
-
-        private int _maxValue = 200;
-
-        public int MaxValue
-        {
-            get { return _maxValue; }
-            set
-            {
-                if(value > 0)
-                {
-                    if (value != _maxValue)
-                    {
-                        Task.Run(async () => await Windows.Storage.ApplicationData.Current.LocalSettings.SaveAsync(nameof(MaxValue), value));
-                    }
-
-                    Set(ref _maxValue, value);
-                }
-            }
-        }
-
-        private int _maxBars = 20;
-
-        public int MaxBars
-        {
-            get { return _maxBars; }
-            set {
-                if (value > 0)
-                {
-                    if (value != _maxBars)
-                    {
-                        Task.Run(async () => await Windows.Storage.ApplicationData.Current.LocalSettings.SaveAsync(nameof(MaxBars), value));
-                    }
-
-                    Set(ref _maxBars, value);
-                }
-            }
-        }
-
         private ElementTheme _elementTheme = ThemeSelectorService.Theme;
 
         public ElementTheme ElementTheme
@@ -96,7 +57,20 @@ namespace VisualS.ViewModels
 
         public SettingsViewModel()
         {
+            BarDataStore.Instance.PropertyChanged += Instance_PropertyChanged;
+        }
 
+        private void Instance_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(BarDataStore.MaxValue):
+                    //BarDataStore.Instance.MaxValue;
+                    break;
+                case nameof(BarDataStore.MaxBars):
+                    //BarDataStore.Instance.MaxValue;
+                    break;
+            }
         }
 
         private bool _hasInstanceBeenInitialized = false;
@@ -105,17 +79,8 @@ namespace VisualS.ViewModels
         {
             if (!_hasInstanceBeenInitialized)
             {
-
-                MaxBars = await Windows.Storage.ApplicationData.Current.LocalSettings.ReadAsync<int>(nameof(MaxBars));
-                MaxValue = await Windows.Storage.ApplicationData.Current.LocalSettings.ReadAsync<int>(nameof(MaxValue));
-                if (MaxBars < 1)
-                {
-                    MaxBars = _maxBars;
-                }
-                if(MaxValue < 1)
-                {
-                    MaxValue = _maxValue;
-                }
+                BarDataStore.Instance.MaxBars = await Windows.Storage.ApplicationData.Current.LocalSettings.ReadAsync<int>(nameof(BarDataStore.Instance.MaxBars));
+                BarDataStore.Instance.MaxValue = await Windows.Storage.ApplicationData.Current.LocalSettings.ReadAsync<int>(nameof(BarDataStore.Instance.MaxValue));                
                 //TODO: Check for nullable
 
                 await InitializeAsync();

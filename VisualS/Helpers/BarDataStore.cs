@@ -18,13 +18,16 @@ namespace VisualS.Helpers
         {
             get
             {
-                OnPropertyChanged();
                 return _maxValue;
             }
             set
             {
                 if (value > 0)
                 {
+                    if (value != _maxValue)
+                    {
+                        Windows.Storage.ApplicationData.Current.LocalSettings.SaveAsync(nameof(MaxValue), value);
+                    }
                     _maxValue = value;
                     OnPropertyChanged();
                 }
@@ -40,6 +43,10 @@ namespace VisualS.Helpers
             {
                 if(value > 0)
                 {
+                    if (value != _maxBars)
+                    {
+                        Windows.Storage.ApplicationData.Current.LocalSettings.SaveAsync(nameof(MaxBars), value);
+                    }
                     _maxBars = value;
                     OnPropertyChanged();
                 }

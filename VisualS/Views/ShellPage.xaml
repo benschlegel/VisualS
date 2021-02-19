@@ -39,7 +39,7 @@
         IsBackEnabled="{x:Bind ViewModel.IsBackEnabled, Mode=OneWay}"
         SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}"
         IsSettingsVisible="True"
-        ExpandedModeThresholdWidth="1280"
+        ExpandedModeThresholdWidth="1300"
         Background="{ThemeResource CustomAcrylicInAppBrush}">
         <winui:NavigationView.MenuItems>
             <!--

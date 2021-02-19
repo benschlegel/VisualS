@@ -14,6 +14,20 @@ namespace VisualS.ViewModels
 
         public SortingDisplayViewModel()
         {
+            BarDataStore.Instance.PropertyChanged += Instance_PropertyChanged;
+        }
+
+        private void Instance_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch(e.PropertyName)
+            {
+                case nameof(BarDataStore.MaxValue):
+                    //BarDataStore.Instance.MaxValue;
+                    break;
+                case nameof(BarDataStore.MaxBars):
+                    //BarDataStore.Instance.MaxValue;
+                    break;
+            }
         }
 
         public Task LoadDataAsync()
@@ -26,8 +40,9 @@ namespace VisualS.ViewModels
             //{
             //    Source.Add(item);
             //}
-            
-            var data = SampleDataService.GenerateRandomBars(20, 200);
+
+
+            var data = SampleDataService.GenerateRandomBars(BarDataStore.Instance.MaxBars, BarDataStore.Instance.MaxValue);
             foreach(var item in data)
             {
                 Source.Add(item);
